@@ -7,8 +7,8 @@ import org.openqa.selenium.WebDriver;
 public class TestContext {
     private final UI UI;
 
-    public TestContext(WebDriver driver) {
-        UI = new UI(driver);
+    public TestContext() {
+        UI = new UI();
     }
     public UI UI() {
         return this.UI;
@@ -20,7 +20,7 @@ public class TestContext {
         private final LoginPage loginPage;
         private final HomePage homePage;
 
-        public UI(WebDriver driver){
+        public UI(){
             this.driver = new Driver().initializeDriver("chrome");
             this.browserUtils = new BrowserUtils(driver);
             this.loginPage = new LoginPage(driver);

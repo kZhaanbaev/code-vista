@@ -27,7 +27,7 @@ public class Driver {
                 System.out.println("Wrong browser type");
         }
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.manage().window().maximize();
+//        driver.manage().window().maximize();
         return driver;
     }
 
