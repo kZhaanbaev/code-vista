@@ -2,6 +2,7 @@ package io.techleadacademy.stepDefs.dbSteps;
 
 import io.techleadacademy.utils.ConfigReader;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -150,5 +151,155 @@ public class JDBCTests {
         }
     }
 
+    //HOMEWORK
+    @Test
+    public void test06() {
+        try {
+            //Create a query
+            String query = "SELECT * FROM tasks WHERE module_name=?";
+            //Create statement
+            statement = connection.prepareStatement(query);
+            statement.setString(1, "2D Arrays");
+            resultSet = statement.executeQuery();
+
+            //process the response (returned result from db)
+            while (resultSet.next()) {
+                String task = resultSet.getString("task_name");
+                String module = resultSet.getString("module_name");
+                System.out.println("Task: " + task + " | Module: " + module);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    //Adding new data to DB
+    @Test
+    public void test07() {
+        try {
+            //Create a query
+            String query = "INSERT INTO modules(module_id, module_name, module_order) " +
+                    "VALUES(?, ?, ?);";
+            //Create statement
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, 335);
+            statement.setString(2, "4D Arrays");
+            statement.setDouble(3, 1);
+            int count = statement.executeUpdate();
+
+            if (count > 0)
+                System.out.println("New data was successfully added to DB");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //Adding task data to DB
+    @Test
+    public void test08() {
+        try {
+            //Create a query
+            String query = "INSERT INTO tasks(task_id, task_name, instruction, module_name, task_order, code) " +
+                    "VALUES(?, ?, ?, ?, ?, ?);";
+            //Create statement
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, 371);
+            statement.setString(2, "Task - Kuba");
+            statement.setString(6, "code");
+            statement.setString(3, "Test instruction");
+            statement.setString(4, "4D Arrays");
+            statement.setDouble(5, 1);
+
+            int count = statement.executeUpdate();
+
+            if (count > 0)
+                System.out.println("New data was successfully added to DB");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //Task to create-update-delete a Task
+    @Test
+    public void test09() {
+        try {
+            int id = 380;
+            //1. Add new Task
+            String query = "INSERT INTO tasks(task_id, task_name, instruction, module_name, task_order, code) " +
+                    "VALUES(?, ?, ?, ?, ?, ?);";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.setString(2, "Task - Kuba");
+            statement.setString(6, "code");
+            statement.setString(3, "Test instruction");
+            statement.setString(4, "4D Arrays");
+            statement.setDouble(5, 1);
+
+            int count = statement.executeUpdate();
+            if (count > 0)
+                System.out.println("New data was successfully added to DB");
+
+            //2. retrieve newly created Task data with id, or name
+            // print out id, name, instruction
+            String query2 = "SELECT * from tasks WHERE task_id=?";
+            statement = connection.prepareStatement(query2);
+            statement.setInt(1, id);
+
+            ResultSet resultSet1 = statement.executeQuery();
+            while (resultSet1.next()){
+                System.out.print(resultSet1.getInt("task_id") + " | ");
+                System.out.print(resultSet1.getString("task_name") + " | ");
+                System.out.println(resultSet1.getString("instruction"));
+            }
+
+            //3.Update newly created Task's name
+            String query3 = "UPDATE tasks " +
+                    "SET instruction = 'Updated instruction' " +
+                    "WHERE task_id=?";
+            statement = connection.prepareStatement(query3);
+            statement.setInt(1, id);
+
+            int count2 = statement.executeUpdate();
+            if (count2 > 0)
+                System.out.println("Existing data was successfully updated in DB");
+
+            //4. retrieve newly updated Task data with id, or name
+            // print out id, name, instruction
+            String query4 = "SELECT * from tasks WHERE task_id=?";
+            statement = connection.prepareStatement(query4);
+            statement.setInt(1, id);
+
+            ResultSet resultSet2 = statement.executeQuery();
+            while (resultSet2.next()){
+                System.out.print(resultSet2.getInt("task_id") + " | ");
+                System.out.print(resultSet2.getString("task_name") + " | ");
+                System.out.println(resultSet2.getString("instruction"));
+            }
+
+            //5. Delete newly created Task using id
+            String query5 = "DELETE FROM tasks " +
+                    "WHERE task_id=?";
+            statement = connection.prepareStatement(query5);
+            statement.setInt(1, id);
+
+            if (statement.executeUpdate() > 0)
+                System.out.println("Existing data was successfully Deleted");
+
+            //6.Try to fetch Task using id, verify it fails
+            String query6 = "SELECT * from tasks WHERE task_id=?";
+            statement = connection.prepareStatement(query6);
+            statement.setInt(1, id);
+
+            ResultSet resultSet3 = statement.executeQuery();
+            if (resultSet3.next()){
+                Assert.fail("Deleted record was found in DB");
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
