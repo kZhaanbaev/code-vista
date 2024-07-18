@@ -14,8 +14,8 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features",
         glue = "stepDefs",
         stepNotifications = true,
-        tags = "@accountTests",
-        dryRun = false
+        tags = "@users-table",
+        dryRun = true
 )
 public class CukesRunner {
 
