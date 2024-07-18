@@ -18,8 +18,8 @@ public class LoginSteps {
         Assert.assertTrue(testContext.UI().getDriver().getTitle().contains("CodeVista"));
     }
 
-    @Given("I login to code-vista app")
-    public void iLoginToCodeVistaApp() {
-        testContext.UI().getLoginPage().loginAsAdmin();
+    @Given("I login to code-vista app as {string}")
+    public void iLoginToCodeVistaAppAs(String user) {
+        testContext.UI().getLoginPage().login(user);
     }
 }

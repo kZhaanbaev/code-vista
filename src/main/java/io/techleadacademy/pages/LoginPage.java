@@ -12,19 +12,32 @@ public class LoginPage {
         PageFactory.initElements(driver, this);
     }
 
-    @FindBy(id = "username")
+    @FindBy(id = "form3Example3")
     public WebElement usernameField;
 
-    @FindBy(id = "password")
+    @FindBy(id = "form3Example4")
     public WebElement passwordField;
 
-    @FindBy(id = "Login")
+    @FindBy(xpath = "//button[contains(text(),'Login')]")
     public WebElement loginBtn;
 
+    public void login(String userType) {
+        String username = null;
+        String password = null;
 
-    public void loginAsAdmin() {
-        usernameField.sendKeys(ConfigReader.readProperty("username"));
-        passwordField.sendKeys(ConfigReader.readProperty("password"));
+        switch (userType.toLowerCase()){
+            case "admin":
+                username = ConfigReader.readProperty("username-admin");
+                password = ConfigReader.readProperty("password-admin");
+                break;
+            case "student":
+                username = ConfigReader.readProperty("username-student");
+                password = ConfigReader.readProperty("password-student");
+                break;
+        }
+
+        usernameField.sendKeys(username);
+        passwordField.sendKeys(password);
         loginBtn.click();
     }
 
