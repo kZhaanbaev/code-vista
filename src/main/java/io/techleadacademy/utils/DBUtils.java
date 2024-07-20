@@ -2,6 +2,7 @@ package io.techleadacademy.utils;
 
 import io.techleadacademy.core.TestContext;
 import io.techleadacademy.pojo.User;
+import io.techleadacademy.pojo.Module;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -63,6 +64,27 @@ public class DBUtils {
         }
 
         return userList;
+    }
+
+    public List<Module> getAllModules(int count) {
+        String query = "SELECT * FROM modules LIMIT " + count;
+        List<Module> moduleList = new ArrayList<>();
+
+        try {
+            testContext.DB().preparedStatement = testContext.DB().connection.prepareStatement(query);
+            testContext.DB().resultSet = testContext.DB().preparedStatement.executeQuery();
+            while (testContext.DB().resultSet.next()){
+                Module module = new Module(
+                        testContext.DB().resultSet.getInt("module_id"),
+                        testContext.DB().resultSet.getString("module_name"),
+                        testContext.DB().resultSet.getInt("module_order"));
+                moduleList.add(module);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return moduleList;
     }
 
 }
