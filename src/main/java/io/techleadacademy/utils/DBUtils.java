@@ -5,6 +5,8 @@ import io.techleadacademy.pojo.User;
 import io.techleadacademy.pojo.Module;
 import org.junit.Assert;
 
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,12 +117,30 @@ public class DBUtils {
 
         try {
             testContext.DB().preparedStatement = testContext.DB().connection.prepareStatement(query);
-            testContext.DB().preparedStatement.setString(1, value);
+            DatabaseMetaData metaData = testContext.DB().connection.getMetaData();
+            ResultSet columns = metaData.getColumns(null, null, table, column);
+            if (columns.next()) {
+                String columnType = columns.getString("TYPE_NAME");
+                switch (columnType.toLowerCase()) {
+                    case "int4":
+                    case "int8":
+                    case "integer":
+                        testContext.DB().preparedStatement.setInt(1, Integer.parseInt(value));
+                        break;
+                    case "float8":
+                        testContext.DB().preparedStatement.setDouble(1, Double.parseDouble(value));
+                        break;
+                    case "text":
+                    default:
+                        testContext.DB().preparedStatement.setString(1, value);
+                        break;
+                }
+            }
 
             testContext.DB().resultSet = testContext.DB().preparedStatement.executeQuery();
 
-            while (testContext.DB().resultSet.next()){
-                switch (table){
+            while (testContext.DB().resultSet.next()) {
+                switch (table) {
                     case "users":
                         User user = new User(
                                 testContext.DB().resultSet.getInt("user_id"),
@@ -131,6 +151,15 @@ public class DBUtils {
                                 testContext.DB().resultSet.getString("role")
                         );
                         list.add(user);
+                        break;
+                    case "modules":
+                        Module module = new Module(
+                                testContext.DB().resultSet.getInt("module_id"),
+                                testContext.DB().resultSet.getString("module_name"),
+                                testContext.DB().resultSet.getDouble("module_order"),
+                                testContext.DB().resultSet.getString("video_link")
+                        );
+                        list.add(module);
                         break;
                     default:
                         Assert.fail("Invalid table name");
@@ -146,7 +175,7 @@ public class DBUtils {
     public boolean updateModuleDataById(String column, String columnValue, int moduleId) {
         int count = 0;
         String query3 = "UPDATE modules " +
-                "SET " + column + " = '" + columnValue + "' " +
+                "SET " + column + " = '" + Double.parseDouble(columnValue) + "' " +
                 "WHERE module_id=?";
         try {
             testContext.DB().preparedStatement = testContext.DB().connection.prepareStatement(query3);
@@ -175,5 +204,22 @@ public class DBUtils {
         }
         return false;
     }
+
+    public void createNewModule(Module module) {
+        String query = "INSERT INTO modules(module_id, module_name, module_order, video_link) " +
+                "VALUES(?, ?, ?, ?);";
+
+        try {
+            testContext.DB().preparedStatement = testContext.DB().connection.prepareStatement(query);
+            testContext.DB().preparedStatement.setInt(1, module.getModule_id());
+            testContext.DB().preparedStatement.setString(2, module.getModule_name());
+            testContext.DB().preparedStatement.setDouble(3, module.getModule_order());
+            testContext.DB().preparedStatement.setString(4, module.getVideo_link());
+            testContext.DB().preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
 
 }
