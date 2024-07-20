@@ -15,11 +15,13 @@ public class TestContext {
     private final UI UI;
     private final DB DB;
     public Map<String, Object> sharedData;
+    public Exception e;
 
     public TestContext() {
         UI = new UI();
         DB = new DB(this);
         sharedData = new HashMap<>();
+        e = new Exception();
     }
     public UI UI() {
         return this.UI;
