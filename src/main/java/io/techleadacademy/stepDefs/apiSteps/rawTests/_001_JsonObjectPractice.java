@@ -3,7 +3,7 @@ package io.techleadacademy.stepDefs.apiSteps.rawTests;
 
 import org.json.JSONObject;
 
-public class JsonObjectPractice {
+public class _001_JsonObjectPractice {
     public static void main(String[] args) {
         String s = "{\n" +
                 "    \"id\": 7076507,\n" +
