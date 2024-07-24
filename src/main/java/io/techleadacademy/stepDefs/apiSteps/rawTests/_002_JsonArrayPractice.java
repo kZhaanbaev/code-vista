@@ -165,4 +165,85 @@ public class _002_JsonArrayPractice {
                     jsonArray.getJSONObject(i).getInt("userId"));
         }
     }
+
+    @Test
+    public void test02(){
+        String str = "[\n" +
+                "    {\n" +
+                "        \"id\": 7117835,\n" +
+                "        \"name\": \"Raj Panicker I\",\n" +
+                "        \"email\": \"i_panicker_raj@daniel-beatty.test\",\n" +
+                "        \"gender\": \"male\",\n" +
+                "        \"status\": \"active\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\": 7117833,\n" +
+                "        \"name\": \"Gitanjali Pandey\",\n" +
+                "        \"email\": \"pandey_gitanjali@senger.test\",\n" +
+                "        \"gender\": \"male\",\n" +
+                "        \"status\": \"active\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\": 7117831,\n" +
+                "        \"name\": \"Rupinder Prajapat\",\n" +
+                "        \"email\": \"prajapat_rupinder@bechtelar-stroman.example\",\n" +
+                "        \"gender\": \"female\",\n" +
+                "        \"status\": \"active\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\": 7117829,\n" +
+                "        \"name\": \"Girja Kaul\",\n" +
+                "        \"email\": \"kaul_girja@jast.test\",\n" +
+                "        \"gender\": \"male\",\n" +
+                "        \"status\": \"inactive\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\": 7117828,\n" +
+                "        \"name\": \"Inder Guneta\",\n" +
+                "        \"email\": \"inder_guneta@boyer.test\",\n" +
+                "        \"gender\": \"female\",\n" +
+                "        \"status\": \"inactive\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\": 7117827,\n" +
+                "        \"name\": \"Gautama Singh\",\n" +
+                "        \"email\": \"gautama_singh@corkery.test\",\n" +
+                "        \"gender\": \"male\",\n" +
+                "        \"status\": \"active\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\": 7117825,\n" +
+                "        \"name\": \"Dr. Anang Trivedi\",\n" +
+                "        \"email\": \"anang_dr_trivedi@johnson-kreiger.test\",\n" +
+                "        \"gender\": \"male\",\n" +
+                "        \"status\": \"active\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\": 7117823,\n" +
+                "        \"name\": \"Bilva Asan DO\",\n" +
+                "        \"email\": \"do_asan_bilva@hills.test\",\n" +
+                "        \"gender\": \"male\",\n" +
+                "        \"status\": \"active\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\": 7117822,\n" +
+                "        \"name\": \"Bandhu Namboothiri\",\n" +
+                "        \"email\": \"bandhu_namboothiri@dickens.example\",\n" +
+                "        \"gender\": \"male\",\n" +
+                "        \"status\": \"inactive\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "        \"id\": 7117820,\n" +
+                "        \"name\": \"Subhashini Dubashi\",\n" +
+                "        \"email\": \"dubashi_subhashini@pollich.example\",\n" +
+                "        \"gender\": \"male\",\n" +
+                "        \"status\": \"inactive\"\n" +
+                "    }\n" +
+                "]";
+        JSONArray jsonArray = new JSONArray(str);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            System.out.println(jsonArray.getJSONObject(i).getString("name"));
+        }
+    }
 }
