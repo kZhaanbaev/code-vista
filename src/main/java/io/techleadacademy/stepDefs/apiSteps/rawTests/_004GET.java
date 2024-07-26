@@ -99,4 +99,71 @@ public class _004GET {
                 .body();
     }
 
+    @Test
+    public void test10(){
+        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGEubGl2ZXByb2plY3QudGVhbTJAZ21haWwuY29tIiwiaWF0IjoxNzIxOTQ1NzQwLCJleHAiOjE3MjIwMzIxNDAsImZpcnN0TmFtZSI6IkpvaG4iLCJsYXN0TmFtZSI6IlNtaXRoIn0.slay_gVoJH6ht1HVKFVxMkpxD09SbiyckFqGbiZAdaM";
+
+        given()
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .get("http://api.code-vista.net/api/modules")
+                .then()
+                .statusCode(200)
+                .log()
+                .body();
+    }
+
+    @Test
+    public void test11(){
+        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGEubGl2ZXByb2plY3QudGVhbTJAZ21haWwuY29tIiwiaWF0IjoxNzIxOTQ1NzQwLCJleHAiOjE3MjIwMzIxNDAsImZpcnN0TmFtZSI6IkpvaG4iLCJsYXN0TmFtZSI6IlNtaXRoIn0.slay_gVoJH6ht1HVKFVxMkpxD09SbiyckFqGbiZAdaM";
+
+        given()
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .get("http://api.code-vista.net/api/task?moduleName=Java challenges")
+                .then()
+                .statusCode(200)
+                .log()
+                .body();
+    }
+
+    //Path Parameter
+    @Test
+    public void test12(){
+        given()
+                .pathParams("user", "7142340")
+                .when()
+                .get("https://gorest.co.in/public/v2/users/{user}")
+                .then()
+                .statusCode(200)
+                .log()
+                .body();
+    }
+
+    @Test
+    public void test13(){
+        given()
+                .pathParams("post", "144367")
+                .when()
+                .get("https://gorest.co.in/public/v2/posts/{post}")
+                .then()
+                .statusCode(200)
+                .log()
+                .body();
+    }
+
+    //QUERY Parameter
+    @Test
+    public void test14(){
+        given()
+                .queryParam("status", "inactive")
+                .queryParam("gender", "male")
+                .when()
+                .get("https://gorest.co.in/public/v2/users")
+                .then()
+                .statusCode(200)
+                .log()
+                .body();
+    }
+
 }

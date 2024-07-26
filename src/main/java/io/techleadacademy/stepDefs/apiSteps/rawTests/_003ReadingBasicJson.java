@@ -1,6 +1,7 @@
 package io.techleadacademy.stepDefs.apiSteps.rawTests;
 
-import org.json.JSONObject;
+//import org.json.JSONObject;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -15,7 +16,7 @@ public class _003ReadingBasicJson {
         try {
             Object object = parser.parse(new FileReader("src/test/resources/data/basicJsonObject.json"));
             JSONObject jsonObject = (JSONObject) object;
-            System.out.println(jsonObject.getString("classType"));
+            System.out.println(jsonObject.get("placed"));
         } catch (ParseException e) {
             throw new RuntimeException(e);
         } catch (FileNotFoundException e) {
@@ -24,4 +25,5 @@ public class _003ReadingBasicJson {
             throw new RuntimeException(e);
         }
     }
+
 }
