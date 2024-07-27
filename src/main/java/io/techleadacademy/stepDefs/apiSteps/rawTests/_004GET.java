@@ -1,16 +1,23 @@
 package io.techleadacademy.stepDefs.apiSteps.rawTests;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
-import io.restassured.http.Header;
 import io.restassured.http.Headers;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import io.techleadacademy.pojo.Module;
 import org.junit.Test;
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.CoreMatchers.*;
 
 public class _004GET {
+    private String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGEubGl2ZXByb2plY3QudGVhbTJAZ21haWwuY29tIiwiaWF0IjoxNzIyMDg2NTc1LCJleHAiOjE3MjIxNzI5NzUsImZpcnN0TmFtZSI6IkpvaG4iLCJsYXN0TmFtZSI6IlNtaXRoIn0.Kio0oI3es0Ir3LeeA4utbl7CiW3ox86-so_ffdRbpqU";
+
     @Test
-    public void test01(){
+    public void test01() {
         when()
                 .get("https://gorest.co.in/public/v2/users")
                 .then()
@@ -27,13 +34,13 @@ public class _004GET {
     }
 
     @Test
-    public void test03(){
+    public void test03() {
         Response response = RestAssured.get("https://gorest.co.in/public/v2/users");
         response.getBody().prettyPrint();
     }
 
     @Test
-    public void test04(){
+    public void test04() {
         when()
                 .get("https://gorest.co.in/public/v2/posts")
                 .then()
@@ -42,7 +49,7 @@ public class _004GET {
 
     //Verifying if properties have specific values included
     @Test
-    public void test05(){
+    public void test05() {
         when()
                 .get("https://gorest.co.in/public/v2/users")
                 .then()
@@ -53,7 +60,7 @@ public class _004GET {
 
     //Verifying header content
     @Test
-    public void test06(){
+    public void test06() {
         when()
                 .get("https://gorest.co.in/public/v2/users")
                 .then()
@@ -63,7 +70,7 @@ public class _004GET {
     }
 
     @Test
-    public void test07(){
+    public void test07() {
         given()
                 .when()
                 .get("https://gorest.co.in/public/v2/users")
@@ -74,7 +81,7 @@ public class _004GET {
 
     //Getting specific info of headers
     @Test
-    public void test08(){
+    public void test08() {
         Headers headers = given()
                 .when()
                 .get("https://gorest.co.in/public/v2/users")
@@ -86,7 +93,7 @@ public class _004GET {
 
     //Using bearer token as part of authorization
     @Test
-    public void test09(){
+    public void test09() {
         String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJrdWJhX3poYWFuYmFldkB0ZWNobGVhZGFjYWRlbXkuaW8iLCJpYXQiOjE3MjE3NjgzNTUsImV4cCI6MTcyMTg1NDc1NSwiZmlyc3ROYW1lIjoiS3ViYSIsImxhc3ROYW1lIjoiWmhhYW5iYWV2In0.EQZ6UawkYubmX9PsQ9gFiNfWodD561CYpXVGy4oWmUQ";
 
         given()
@@ -100,7 +107,7 @@ public class _004GET {
     }
 
     @Test
-    public void test10(){
+    public void test10() {
         String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGEubGl2ZXByb2plY3QudGVhbTJAZ21haWwuY29tIiwiaWF0IjoxNzIxOTQ1NzQwLCJleHAiOjE3MjIwMzIxNDAsImZpcnN0TmFtZSI6IkpvaG4iLCJsYXN0TmFtZSI6IlNtaXRoIn0.slay_gVoJH6ht1HVKFVxMkpxD09SbiyckFqGbiZAdaM";
 
         given()
@@ -114,7 +121,7 @@ public class _004GET {
     }
 
     @Test
-    public void test11(){
+    public void test11() {
         String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0bGEubGl2ZXByb2plY3QudGVhbTJAZ21haWwuY29tIiwiaWF0IjoxNzIxOTQ1NzQwLCJleHAiOjE3MjIwMzIxNDAsImZpcnN0TmFtZSI6IkpvaG4iLCJsYXN0TmFtZSI6IlNtaXRoIn0.slay_gVoJH6ht1HVKFVxMkpxD09SbiyckFqGbiZAdaM";
 
         given()
@@ -129,7 +136,7 @@ public class _004GET {
 
     //Path Parameter
     @Test
-    public void test12(){
+    public void test12() {
         given()
                 .pathParams("user", "7142340")
                 .when()
@@ -141,7 +148,7 @@ public class _004GET {
     }
 
     @Test
-    public void test13(){
+    public void test13() {
         given()
                 .pathParams("post", "144367")
                 .when()
@@ -154,7 +161,7 @@ public class _004GET {
 
     //QUERY Parameter
     @Test
-    public void test14(){
+    public void test14() {
         given()
                 .queryParam("status", "inactive")
                 .queryParam("gender", "male")
@@ -165,5 +172,40 @@ public class _004GET {
                 .log()
                 .body();
     }
+
+    @Test
+    public void test15(){
+//        given()
+//                .header("Authorization", "Bearer " + token)
+//                .when()
+//                .get("http://api.code-vista.net/api/modules")
+//                .then()
+//                .statusCode(200)
+//                .log()
+//                .body();
+        baseURI = "http://api.code-vista.net/api";
+        RequestSpecification requestSpecification = RestAssured.given();
+        requestSpecification.header("Authorization", "Bearer " + token);
+
+        Response response = requestSpecification.request(Method.GET, "/modules");
+
+        String bodyStr = response.asPrettyString();
+        System.out.println(bodyStr);
+    }
+
+    @Test
+    public void test16(){
+        baseURI = "http://api.code-vista.net/api";
+        basePath = "/users";
+        authentication = oauth2(token);
+
+        given()
+                .get()
+                .then()
+                .statusCode(200)
+                .log()
+                .body();
+    }
+
 
 }
