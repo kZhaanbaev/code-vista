@@ -1,57 +1,77 @@
 package io.techleadacademy.pojo;
 
 public class Module {
-    private int module_id;
-    private String module_name;
-    private double module_order;
-    private String video_link;
+    private int moduleId;
+    private String moduleName;
+    private double moduleOrder;
+    private String videoLink;
+    private String createTime;
+    private String updateTime;
 
     public Module(int module_id, String module_name, double module_order, String video_link) {
-        this.module_id = module_id;
-        this.module_name = module_name;
-        this.module_order = module_order;
-        this.video_link = video_link;
+        this.moduleId = module_id;
+        this.moduleName = module_name;
+        this.moduleOrder = module_order;
+        this.videoLink = video_link;
     }
 
-    public int getModule_id() {
-        return module_id;
+    public Module(){}
+
+    public int getModuleId() {
+        return moduleId;
     }
 
-    public void setModule_id(int module_id) {
-        this.module_id = module_id;
+    public void setModuleId(int moduleId) {
+        this.moduleId = moduleId;
     }
 
-    public String getModule_name() {
-        return module_name;
+    public String getModuleName() {
+        return moduleName;
     }
 
-    public void setModule_name(String module_name) {
-        this.module_name = module_name;
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
     }
 
-    public double getModule_order() {
-        return module_order;
+    public double getModuleOrder() {
+        return moduleOrder;
     }
 
-    public void setModule_order(double module_order) {
-        this.module_order = module_order;
+    public void setModuleOrder(double moduleOrder) {
+        this.moduleOrder = moduleOrder;
     }
 
-    public String getVideo_link() {
-        return video_link;
+    public String getVideoLink() {
+        return videoLink;
     }
 
-    public void setVideo_link(String video_link) {
-        this.video_link = video_link;
+    public void setVideoLink(String videoLink) {
+        this.videoLink = videoLink;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override
     public String toString() {
         return "Module{" +
-                "module_id=" + module_id +
-                ", module_name='" + module_name + '\'' +
-                ", module_order=" + module_order +
-                ", video_link='" + video_link + '\'' +
+                "module_id=" + moduleId +
+                ", module_name='" + moduleName + '\'' +
+                ", module_order=" + moduleOrder +
+                ", video_link='" + videoLink + '\'' +
                 '}';
     }
 }

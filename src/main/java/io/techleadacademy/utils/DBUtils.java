@@ -211,10 +211,10 @@ public class DBUtils {
 
         try {
             testContext.DB().preparedStatement = testContext.DB().connection.prepareStatement(query);
-            testContext.DB().preparedStatement.setInt(1, module.getModule_id());
-            testContext.DB().preparedStatement.setString(2, module.getModule_name());
-            testContext.DB().preparedStatement.setDouble(3, module.getModule_order());
-            testContext.DB().preparedStatement.setString(4, module.getVideo_link());
+            testContext.DB().preparedStatement.setInt(1, module.getModuleId());
+            testContext.DB().preparedStatement.setString(2, module.getModuleName());
+            testContext.DB().preparedStatement.setDouble(3, module.getModuleOrder());
+            testContext.DB().preparedStatement.setString(4, module.getVideoLink());
             testContext.DB().preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
