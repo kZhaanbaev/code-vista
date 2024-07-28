@@ -34,20 +34,26 @@ public class _007_POST {
     public void test02(){
         String token = "d8d4c1540d64c51e123c7383dc59d405daea142f14a8cf29fb5a349a3970b104";
         String user = "{\n" +
-                "    \"name\": \"Sam Smith Jr\",\n" +
-                "    \"email\": \"s.smith.jr@test.com\",\n" +
+                "    \"name\": \"Sam Smith Jr3\",\n" +
+                "    \"email\": \"s.smith.jr3@test.com\",\n" +
                 "    \"gender\": \"male\",\n" +
                 "    \"status\": \"inactive\"\n" +
                 "}";
 
-        given()
+        int id = given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
                 .body(user)
                 .when()
                 .post("https://gorest.co.in/public/v2/users")
+                .jsonPath()
+                .getInt("id");
+
+        given()
+                .header("Authorization", "Bearer " + token)
+                .get("https://gorest.co.in/public/v2/users/" + id)
                 .then()
-                .statusCode(201)
+                .statusCode(200)
                 .log()
                 .body();
 
