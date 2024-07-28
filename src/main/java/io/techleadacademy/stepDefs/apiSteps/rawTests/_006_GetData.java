@@ -93,7 +93,7 @@ public class _006_GetData {
         int id = given()
                 .get(endpointUser)
                 .jsonPath()
-                        .getInt("id");
+                .getInt("id");
 
         System.out.println("===================>>" + id);
     }
