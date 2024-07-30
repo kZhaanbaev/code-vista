@@ -1,6 +1,5 @@
 package io.techleadacademy.stepDefs.apiSteps.rawTests;
 
-
 import org.json.JSONObject;
 
 public class _001_JsonObjectPractice {

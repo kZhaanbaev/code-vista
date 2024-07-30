@@ -1,6 +1,9 @@
 package io.techleadacademy.core;
 
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import io.techleadacademy.pages.*;
+import io.techleadacademy.utils.ApiUtils;
 import io.techleadacademy.utils.BrowserUtils;
 import io.techleadacademy.utils.DBUtils;
 import org.openqa.selenium.WebDriver;
@@ -14,12 +17,14 @@ import java.util.Map;
 public class TestContext {
     private final UI UI;
     private final DB DB;
+    private final API API;
     public Map<String, Object> sharedData;
     public Exception e;
 
     public TestContext() {
         UI = new UI();
         DB = new DB(this);
+        API = new API(this);
         sharedData = new HashMap<>();
         e = new Exception();
     }
@@ -28,6 +33,9 @@ public class TestContext {
     }
     public DB DB(){
         return this.DB;
+    }
+    public API API() {
+        return this.API;
     }
 
     public class UI {
@@ -68,6 +76,16 @@ public class TestContext {
 
         public DB(TestContext testContext) {
             DBUtils = new DBUtils(testContext);
+        }
+    }
+
+    public class API {
+        public RequestSpecification requestSpecification;
+        public Response response;
+        public ApiUtils ApiUtils;
+
+        public API(TestContext testContext) {
+            ApiUtils = new ApiUtils(testContext);
         }
     }
 }
