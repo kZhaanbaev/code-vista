@@ -9,5 +9,21 @@ public class ApiUtils {
         this.testContext = testContext;
     }
 
+    //sending request example using testContext
+    public void sample1(){
+        testContext.API().requestSpecification
+                .given()
+                .when()
+                .get("")
+                .then()
+                .statusCode(200);
+    }
 
+    //storing any returned information
+    public void sample2(){
+        testContext.API().response = testContext.API().requestSpecification
+                .given()
+                .when()
+                .get("");
+    }
 }

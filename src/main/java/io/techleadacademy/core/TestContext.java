@@ -1,6 +1,5 @@
 package io.techleadacademy.core;
 
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.techleadacademy.pages.*;
@@ -34,6 +33,9 @@ public class TestContext {
     }
     public DB DB(){
         return this.DB;
+    }
+    public API API() {
+        return this.API;
     }
 
     public class UI {
@@ -79,7 +81,7 @@ public class TestContext {
 
     public class API {
         public RequestSpecification requestSpecification;
-        Response response;
+        public Response response;
         public ApiUtils ApiUtils;
 
         public API(TestContext testContext) {
