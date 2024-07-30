@@ -6,6 +6,8 @@ target/
 ### local properties ###
 **/*local*.properties
 
+**/*Student*/
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
