@@ -51,7 +51,7 @@ public class _007_POST {
                 .jsonPath()
                 .getInt("id");
 
-                 given()
+        given()
                 .header("Authorization", "Bearer " + token)
                 .get("https://gorest.co.in/public/v2/users/" + id)
                 .then()
