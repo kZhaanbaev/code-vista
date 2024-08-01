@@ -1,11 +1,14 @@
 package io.techleadacademy.utils;
 
 import io.restassured.RestAssured;
-import io.restassured.http.Method;
+import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
 import io.techleadacademy.core.TestContext;
-import java.util.Map;
-import io.techleadacademy.pojo.Module;
+import io.techleadacademy.pojo.Submission;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ApiUtils {
     private TestContext testContext;
@@ -14,102 +17,93 @@ public class ApiUtils {
         this.testContext = testContext;
     }
 
-    //sending request example using testContext
-    public void sample1(){
-        testContext.API().requestSpecification
-                .given()
+    public void setUpConnection() {
+        testContext.API().requestSpecification = RestAssured.given();
+        testContext.API().requestSpecification.baseUri(ConfigReader.readProperty("base-url"));
+        testContext.API().requestSpecification.auth().oauth2(getBearerToken());
+    }
+
+    public String getBearerToken() {
+        Map<String, String> data = new HashMap<>();
+        data.put("email", ConfigReader.readProperty("username-admin"));
+        data.put("password", ConfigReader.readProperty("password-admin"));
+
+        return RestAssured.given()
+                .body(data)
+                .contentType(ContentType.JSON)
                 .when()
-                .get("")
-                .then()
-                .statusCode(200);
+                .post(ConfigReader.readProperty("auth-url"))
+                .jsonPath()
+                .getString("token");
     }
 
-    //storing any returned information
-    public void sample2(){
+    public List<Submission> getSubmissionsByUser(int userId) {
+        testContext.API().requestSpecification.basePath("/api/submission/by-user/" + userId);
         testContext.API().response = testContext.API().requestSpecification
-                .given()
+                .get();
+
+        JsonPath jsonPath = testContext.API().response.jsonPath();
+        return jsonPath.getList("", Submission.class);
+    }
+
+    public int getSubmissionId(int userId, String taskName) {
+        testContext.API().requestSpecification.basePath("/api/submission/by-user/" + userId);
+        testContext.API().response = testContext.API().requestSpecification
+                .get();
+
+        JsonPath jsonPath = testContext.API().response.jsonPath();
+
+        List<Map<String, Object>> submissions = jsonPath.getList("$");
+        Integer submissionId = null;
+        for (Map<String, Object> submission : submissions) {
+            if (submission.get("taskName").equals(taskName)) {
+                submissionId = (Integer) submission.get("submissionId");
+                break;
+            }
+        }
+        return submissionId;
+    }
+
+    public Submission getSubmissionByUserAndTask(int userId, String taskName) {
+        testContext.API().requestSpecification.basePath("/api/submission/by-user-and-task");
+        testContext.API().response = testContext.API().requestSpecification
+                .queryParam("userId", userId)
+                .queryParam("taskName", taskName)
                 .when()
-                .get("");
+                .get();
+
+        JsonPath jsonPath = testContext.API().response.jsonPath();
+        return jsonPath.getObject("", Submission.class);
     }
 
+    public List<Submission> getSubmissionByModuleAndTask(int userId, String moduleName) {
+        testContext.API().requestSpecification.basePath("/api/submission/by-module");
+        testContext.API().response = testContext.API().requestSpecification
+                .queryParam("userId", userId)
+                .queryParam("moduleName", moduleName)
+                .when()
+                .get();
 
-    public void createNewModule(Map<String, Object> moduleData) {
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXJpYW5uYS5hbnRvbmlhbkBnbWF" +
-                "pbC5jb20iLCJpYXQiOjE3MjIzODkwNzQsImV4cCI6MTcyMjQ3NTQ3NCwiZmlyc3ROYW1lIjoiTWFyaWF" +
-                "ubmEiLCJsYXN0TmFtZSI6IkFudG9uaWFuIn0.eYLKKf5vmpnUA7TBSsmx_lJ75DZaVi3Lr-d1PAYPEME";
-        testContext.API().requestSpecification = RestAssured.given();
-        testContext.API().requestSpecification.auth().oauth2(token);
-        testContext.API().requestSpecification.queryParam("moduleName", moduleData.get("moduleName"))
-                .queryParam("videoLink", moduleData.get("videoLink"))
-                .queryParam("moduleOrder", moduleData.get("moduleOrder"));
+        JsonPath jsonPath = testContext.API().response.jsonPath();
+        return jsonPath.getList("", Submission.class);
+    }
+
+    public void createNewSubmissionByUser(Submission submission){
+        testContext.API().requestSpecification.basePath("/api/submission");
 
         testContext.API().response = testContext.API().requestSpecification
-                .request(Method.POST, "http://api.code-vista.net/api/modules");
+                .contentType(ContentType.JSON)
+                .body(submission)
+                .when()
+                .post();
     }
 
-    public void createNewModule(Module module) {
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXJpYW5uYS5hbnRvbmlhbkBnbWF" +
-                "pbC5jb20iLCJpYXQiOjE3MjIzODkwNzQsImV4cCI6MTcyMjQ3NTQ3NCwiZmlyc3ROYW1lIjoiTWFyaWF" +
-                "ubmEiLCJsYXN0TmFtZSI6IkFudG9uaWFuIn0.eYLKKf5vmpnUA7TBSsmx_lJ75DZaVi3Lr-d1PAYPEME";
-        testContext.API().requestSpecification = RestAssured.given();
-        testContext.API().requestSpecification.auth().oauth2(token);
-        testContext.API().requestSpecification.queryParam("moduleName", module.getModuleName())
-                .queryParam("videoLink", module.getVideoLink())
-                .queryParam("moduleOrder", module.getModuleOrder());
+    public void deleteSubmission(int submissionId) {
+        testContext.API().requestSpecification.basePath("/api/submission/" + submissionId);
 
         testContext.API().response = testContext.API().requestSpecification
-                .request(Method.POST, "http://api.code-vista.net/api/modules");
+                .when()
+                .delete();
     }
-
-    public void deleteModule(int moduleId) {
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXJpYW5uYS5hbnRvbmlhbkBnbWF" +
-                "pbC5jb20iLCJpYXQiOjE3MjIzODkwNzQsImV4cCI6MTcyMjQ3NTQ3NCwiZmlyc3ROYW1lIjoiTWFyaWF" +
-                "ubmEiLCJsYXN0TmFtZSI6IkFudG9uaWFuIn0.eYLKKf5vmpnUA7TBSsmx_lJ75DZaVi3Lr-d1PAYPEME";
-        testContext.API().requestSpecification = RestAssured.given();
-        testContext.API().requestSpecification.auth().oauth2(token);
-        testContext.API().requestSpecification.queryParam("moduleId", moduleId);
-
-        testContext.API().response = testContext.API().requestSpecification
-                .request(Method.DELETE, "http://api.code-vista.net/api/modules");
-    }
-
-
-    public void createNewTask(Map<String, Object> taskData) {
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXJpYW5uYS5hbnRvbmlhbkBnbWF" +
-                "pbC5jb20iLCJpYXQiOjE3MjIzODkwNzQsImV4cCI6MTcyMjQ3NTQ3NCwiZmlyc3ROYW1lIjoiTWFyaWF" +
-                "ubmEiLCJsYXN0TmFtZSI6IkFudG9uaWFuIn0.eYLKKf5vmpnUA7TBSsmx_lJ75DZaVi3Lr-d1PAYPEME";
-        testContext.API().requestSpecification = RestAssured.given();
-        testContext.API().requestSpecification.auth().oauth2(token);
-        testContext.API().requestSpecification.body(taskData);
-
-        testContext.API().response = testContext.API().requestSpecification
-                .request(Method.POST, "http://api.code-vista.net/api/task");
-    }
-    public void deleteTask(int taskId) {
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXJpYW5" +
-                "uYS5hbnRvbmlhbkBnbWFpbC5jb20iLCJpYXQiOjE3MjI1Mjg0MDYsImV4cCI6MTcyMjY" +
-                "xNDgwNiwiZmlyc3ROYW1lIjoiTWFyaWFubmEiLCJsYXN0TmFtZSI6IkFudG9uaWFuIn0.L87" +
-                "tsMxhrkLzlup-g4hhZlXoYJ32FGBg-xD3snr42Qg";
-        testContext.API().requestSpecification = RestAssured.given();
-        testContext.API().requestSpecification.auth().oauth2(token);
-        testContext.API().requestSpecification.queryParam("moduleId", taskId);
-
-        testContext.API().response = testContext.API().requestSpecification
-                .request(Method.DELETE, "http://api.code-vista.net/api/task");
-    }
-    public void updateModuleDetails(Map<String, Object> data, int moduleId) {
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYX" +
-                "JpYW5uYS5hbnRvbmlhbkBnbWFpbC5jb20iLCJpYXQiOjE3MjI1Mjg0MDYsImV4" +
-                "cCI6MTcyMjYxNDgwNiwiZmlyc3ROYW1lIjoiTWFyaWFubmEiLCJsYXN0TmFtZSI6Ik" +
-                "FudG9uaWFuIn0.L87tsMxhrkLzlup-g4hhZlXoYJ32FGBg-xD3snr42Qg";
-        testContext.API().requestSpecification = RestAssured.given();
-        testContext.API().requestSpecification.auth().oauth2(token);
-        testContext.API().requestSpecification.queryParam("moduleId", moduleId)
-                .body(data);
-
-        testContext.API().response = testContext.API().requestSpecification
-                .request(Method.PUT, "http://api.code-vista.net/api/modules");
-    }
-
 
 }

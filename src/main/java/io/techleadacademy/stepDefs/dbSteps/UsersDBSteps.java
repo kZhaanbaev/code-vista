@@ -59,6 +59,4 @@ public class UsersDBSteps {
     public void verifyUserCountIs(int count) {
         Assert.assertTrue(Integer.parseInt(testContext.sharedData.get("row").toString()) >= count);
     }
-
-
 }
