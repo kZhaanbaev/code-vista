@@ -73,4 +73,28 @@ public class ApiUtils {
                 .request(Method.DELETE, "http://api.code-vista.net/api/modules");
     }
 
+
+    public void createNewTask(Map<String, Object> taskData) {
+        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXJpYW5uYS5hbnRvbmlhbkBnbWF" +
+                "pbC5jb20iLCJpYXQiOjE3MjIzODkwNzQsImV4cCI6MTcyMjQ3NTQ3NCwiZmlyc3ROYW1lIjoiTWFyaWF" +
+                "ubmEiLCJsYXN0TmFtZSI6IkFudG9uaWFuIn0.eYLKKf5vmpnUA7TBSsmx_lJ75DZaVi3Lr-d1PAYPEME";
+        testContext.API().requestSpecification = RestAssured.given();
+        testContext.API().requestSpecification.auth().oauth2(token);
+        testContext.API().requestSpecification.body(taskData);
+
+        testContext.API().response = testContext.API().requestSpecification
+                .request(Method.POST, "http://api.code-vista.net/api/task");
+    }
+    public void deleteTask(int taskId) {
+        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYXJpYW5uYS5hbnRvbmlhbkBnbWF" +
+                "pbC5jb20iLCJpYXQiOjE3MjIzODkwNzQsImV4cCI6MTcyMjQ3NTQ3NCwiZmlyc3ROYW1lIjoiTWFyaWF" +
+                "ubmEiLCJsYXN0TmFtZSI6IkFudG9uaWFuIn0.eYLKKf5vmpnUA7TBSsmx_lJ75DZaVi3Lr-d1PAYPEME";
+        testContext.API().requestSpecification = RestAssured.given();
+        testContext.API().requestSpecification.auth().oauth2(token);
+        testContext.API().requestSpecification.queryParam("moduleId", taskId);
+
+        testContext.API().response = testContext.API().requestSpecification
+                .request(Method.DELETE, "http://api.code-vista.net/api/task");
+    }
+
 }
