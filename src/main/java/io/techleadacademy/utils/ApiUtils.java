@@ -5,6 +5,7 @@ import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.techleadacademy.core.TestContext;
 import io.techleadacademy.pojo.Submission;
+import io.techleadacademy.pojo.Module;
 
 import java.util.HashMap;
 import java.util.List;
@@ -100,6 +101,36 @@ public class ApiUtils {
 
     public void deleteSubmission(int submissionId) {
         testContext.API().requestSpecification.basePath("/api/submission/" + submissionId);
+
+        testContext.API().response = testContext.API().requestSpecification
+                .when()
+                .delete();
+    }
+
+    public void createNewModule(Module module) {
+        testContext.API().requestSpecification.basePath("/api/modules");
+        testContext.API().response = testContext.API().requestSpecification
+                .queryParam("moduleName", module.getModuleName())
+                .queryParam("videoLink", module.getVideoLink())
+                .queryParam("moduleOrder", module.getModuleOrder())
+                .when()
+                .post();
+
+        JsonPath jsonPath = testContext.API().response.jsonPath();
+        int moduleId = jsonPath.getInt("moduleId");
+        testContext.sharedData.put("moduleId", moduleId);
+    }
+
+    public void getModuleByName(String name){
+        testContext.API().requestSpecification.basePath("/api/modules/" + name);
+        testContext.API().response = testContext.API().requestSpecification
+                .when()
+                .get();
+    }
+
+    public void deleteModule(int moduleId) {
+        testContext.API().requestSpecification.basePath("/api/modules");
+        testContext.API().requestSpecification.queryParam("moduleId", moduleId);
 
         testContext.API().response = testContext.API().requestSpecification
                 .when()
