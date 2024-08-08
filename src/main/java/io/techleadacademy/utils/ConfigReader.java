@@ -8,6 +8,7 @@ import java.util.Properties;
 
 public class ConfigReader {
     public static String readProperty(String property) {
+        System.out.println("===============>>>>>>>>>: " + property);
         System.out.println("-------------->>>>>>>>>>: " + System.getenv("STUDENT_USR"));
         switch (property) {
             case "username-student":
