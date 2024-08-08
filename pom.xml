@@ -108,11 +108,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
-                <configuration>
-                    <includes>
-                        <include>**/*.java</include>
-                    </includes>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>net.masterthought</groupId>
@@ -131,7 +126,7 @@
                             <!-- output directory for the generated report -->
                             <outputDirectory>${project.build.directory}/cucumber-reports</outputDirectory>
                             <jsonFiles>
-                                <param>**/*.json</param>
+                                <param>**/cucumber.json</param>
                             </jsonFiles>
                         </configuration>
                     </execution>

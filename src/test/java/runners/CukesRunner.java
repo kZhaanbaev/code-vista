@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
         glue = "io.techleadacademy.stepDefs",
         stepNotifications = true,
         tags = "@US100",
-        dryRun = true
+        dryRun = false
 )
 public class CukesRunner {
 
