@@ -8,13 +8,14 @@ import java.util.Properties;
 
 public class ConfigReader {
     public static String readProperty(String property) {
+        System.out.println("-------------->>>>>>>>>>: " + System.getenv("STUDENT_USR"));
         switch (property) {
             case "username-student":
                 return System.getenv("STUDENT_USR");// != null ? System.getenv("STUDENT_USR") : new ConfigReader().getPropertyFromFile(property);
             case "password-student":
                 return System.getenv("STUDENT_PSW");// != null ? System.getenv("STUDENT_PSW") : new ConfigReader().getPropertyFromFile(property);
             default:
-                return new ConfigReader().getPropertyFromFile(property);
+                return "123";//new ConfigReader().getPropertyFromFile(property);
         }
     }
 
