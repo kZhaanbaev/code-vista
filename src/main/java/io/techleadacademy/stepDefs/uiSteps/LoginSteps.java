@@ -8,7 +8,7 @@ import org.junit.Assert;
 public class LoginSteps {
     private final TestContext testContext;
 
-    public LoginSteps(TestContext testContext){
+    public LoginSteps(TestContext testContext) {
         this.testContext = testContext;
     }
 
@@ -22,5 +22,16 @@ public class LoginSteps {
     @Given("I login to code-vista app as {string}")
     public void iLoginToCodeVistaAppAs(String user) {
         testContext.UI().getLoginPage().login(user);
+    }
+
+    @Then("{string} navigation button should be visible")
+    public void navigationButtonShouldBeVisible(String item) {
+        switch (item) {
+            case "Admin":
+                Assert.assertTrue(testContext.UI().getHomePage().adminNavButton.isDisplayed());
+                break;
+            default:
+                Assert.fail();
+        }
     }
 }

@@ -11,6 +11,7 @@ public class HomePage {
         PageFactory.initElements(driver, this);
     }
 
-
+    @FindBy(xpath = "//button[text() = ' Admin ']")
+    public WebElement adminNavButton;
 
 }
