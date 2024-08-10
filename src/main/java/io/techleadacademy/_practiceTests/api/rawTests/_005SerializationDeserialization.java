@@ -1,4 +1,4 @@
-package io.techleadacademy.stepDefs.apiSteps.rawTests;
+package io.techleadacademy._practiceTests.api.rawTests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

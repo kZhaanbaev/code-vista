@@ -5,6 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.techleadacademy.core.TestContext;
+import io.techleadacademy.pojo.Module;
 import io.techleadacademy.pojo.Submission;
 import org.junit.Assert;
 
@@ -46,6 +47,9 @@ public class SubmissionAPISteps {
             case "/api/submission":
                 testContext.API().ApiUtils.createNewSubmissionByUser(mapper.convertValue(map, Submission.class));
                 break;
+            case "/api/modules":
+                testContext.API().ApiUtils.createNewModule(mapper.convertValue(map, Module.class));
+                break;
             default:
                 Assert.fail("invalid resource or payload");
         }
@@ -79,8 +83,12 @@ public class SubmissionAPISteps {
             case "/api/submission":
                 testContext.API().ApiUtils.deleteSubmission(Integer.parseInt(testContext.sharedData.get("submissionId").toString()));
                 break;
+            case "/api/modules":
+                testContext.API().ApiUtils.deleteModule(Integer.parseInt(testContext.sharedData.get("moduleId").toString()));
+                break;
             default:
                 Assert.fail("Invalid resource or id");
         }
     }
+
 }

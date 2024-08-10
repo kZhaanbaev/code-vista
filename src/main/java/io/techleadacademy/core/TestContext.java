@@ -1,5 +1,6 @@
 package io.techleadacademy.core;
 
+import io.cucumber.java.Scenario;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.techleadacademy.pages.*;
@@ -20,6 +21,7 @@ public class TestContext {
     private final API API;
     public Map<String, Object> sharedData;
     public Exception e;
+    public Scenario scenario;
 
     public TestContext() {
         UI = new UI();

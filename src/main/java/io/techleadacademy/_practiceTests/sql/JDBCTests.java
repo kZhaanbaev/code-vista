@@ -1,4 +1,4 @@
-package io.techleadacademy.stepDefs.dbSteps;
+package io.techleadacademy._practiceTests.sql;
 
 import io.techleadacademy.utils.ConfigReader;
 import org.junit.After;

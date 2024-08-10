@@ -1,4 +1,4 @@
-package io.techleadacademy.stepDefs.apiSteps.rawTests;
+package io.techleadacademy._practiceTests.api.rawTests;
 
 import io.restassured.RestAssured;
 import io.restassured.http.Headers;

@@ -12,10 +12,10 @@ import org.junit.runner.RunWith;
                 "json:target/cucumber-reports/cucumber.json"
         },
         features = "src/test/resources/features",
-        glue = "stepDefs",
+        glue = "io.techleadacademy.stepDefs",
         stepNotifications = true,
-        tags = "@users-table",
-        dryRun = true
+        tags = "@US100",
+        dryRun = false
 )
 public class CukesRunner {
 

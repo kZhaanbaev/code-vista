@@ -16,6 +16,7 @@ public class LoginSteps {
     public void verifyTitleOfThePageShouldContainHome() {
         testContext.UI().getBrowserUtils().Waits.waitForTitleToContain("CodeVista");
         Assert.assertTrue(testContext.UI().getDriver().getTitle().contains("CodeVista"));
+        testContext.UI().getBrowserUtils().logFailScreenshot(testContext.scenario);
     }
 
     @Given("I login to code-vista app as {string}")

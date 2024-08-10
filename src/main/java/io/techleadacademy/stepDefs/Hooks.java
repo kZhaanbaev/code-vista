@@ -14,7 +14,8 @@ public class Hooks {
     }
 
     @Before
-    public void setUp(){
+    public void setUp(Scenario scenario){
+        testContext.scenario = scenario;
         testContext.UI().getDriver().get(ConfigReader.readProperty("url"));
     }
 
