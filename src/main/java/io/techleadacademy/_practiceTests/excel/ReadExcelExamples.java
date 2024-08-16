@@ -23,7 +23,7 @@ public class ReadExcelExamples {
         Workbook workbook = new XSSFWorkbook(inputStream);
 
         //Access the Sheet
-        Sheet sheet = workbook.getSheet("Sheet3");
+        Sheet sheet = workbook.getSheet("Teams");
 
         //Get all row count
         int rowCount = sheet.getPhysicalNumberOfRows();
@@ -32,10 +32,19 @@ public class ReadExcelExamples {
         for (int i = 0; i < rowCount; i++) {
             //Getting each row
             Row row = sheet.getRow(i);
+            if (row == null)
+                continue;
 
-            //Getting second cell of each row
-            Cell cell = row.getCell(1);
-            System.out.println(cell);
+            for (int j = 0; j < row.getLastCellNum(); j++){
+                try {
+                    //Getting second cell of each row
+                    Cell cell = row.getCell(j);
+                    System.out.print(cell + " | ");
+                }catch (NullPointerException e){
+                    System.out.println("blank cell");
+                }
+            }
+            System.out.println();
         }
 
 
