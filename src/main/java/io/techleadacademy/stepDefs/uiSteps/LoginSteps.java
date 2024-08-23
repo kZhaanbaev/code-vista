@@ -22,5 +22,7 @@ public class LoginSteps {
     @Given("I login to code-vista app as {string}")
     public void iLoginToCodeVistaAppAs(String user) {
         testContext.UI().getLoginPage().login(user);
+        testContext.scenario.log("Logging in as a " + user);
+        testContext.scenario.log("Locator: " + "//div[@class='test']");
     }
 }
